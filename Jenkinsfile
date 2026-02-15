@@ -67,7 +67,7 @@ pipeline {
                 sh """
                     docker stop jenkins-cicd || true
                     docker rm jenkins-cicd || true
-                    docker run -d -p 8080:8080 \
+                    docker run -d -p 8081:8080 \
                     --name jenkins-cicd \
                     ${DOCKER_IMAGE}:${DOCKER_TAG}
                 """
