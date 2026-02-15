@@ -8,6 +8,6 @@ public class HelloController {
 
     @GetMapping("/")
     public String home() {
-        return "🚀 CI/CD Pipeline Successfully Deployed on EC2 using Jenkins & Docker!";
+        return "🚀 CI/CD Pipeline V2 Successfully Deployed on EC2 using Jenkins & Docker!";
     }
 }
