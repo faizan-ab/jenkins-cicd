@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_IMAGE = "yourdockerhubusername/jenkins-cicd"
+        DOCKER_IMAGE = "faizanab/jenkins-cicd"
         DOCKER_TAG   = "${BUILD_NUMBER}"
     }
 
