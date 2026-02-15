@@ -1,20 +1,31 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = "yourdockerhubusername/industry-app"
-        DOCKER_TAG = "${BUILD_NUMBER}"
-    }
-
     tools {
         maven 'Maven'
     }
 
+    environment {
+        DOCKER_IMAGE = "yourdockerhubusername/jenkins-cicd"
+        DOCKER_TAG   = "${BUILD_NUMBER}"
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timestamps()
+    }
+
     stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean compile'
             }
         }
 
@@ -24,9 +35,9 @@ pipeline {
             }
         }
 
-        stage('SonarQube Scan') {
+        stage('Package') {
             steps {
-                echo "SonarQube integration will be added here"
+                sh 'mvn package -DskipTests'
             }
         }
 
@@ -38,9 +49,13 @@ pipeline {
 
         stage('Docker Push') {
             steps {
-                withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
                     sh """
-                        echo \$DOCKER_PASS | docker login -u yourdockerhubusername --password-stdin
+                        echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
                         docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                 }
@@ -50,20 +65,27 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh """
-                    docker stop industry-app || true
-                    docker rm industry-app || true
-                    docker run -d -p 8080:8080 --name industry-app ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    docker stop jenkins-cicd || true
+                    docker rm jenkins-cicd || true
+                    docker run -d -p 8080:8080 \
+                    --name jenkins-cicd \
+                    ${DOCKER_IMAGE}:${DOCKER_TAG}
                 """
             }
         }
     }
 
     post {
-        success {
-            echo "Pipeline executed successfully 🚀"
+        always {
+            cleanWs()
         }
+
+        success {
+            echo "✅ Pipeline executed successfully"
+        }
+
         failure {
-            echo "Pipeline failed ❌"
+            echo "❌ Pipeline failed"
         }
     }
 }
