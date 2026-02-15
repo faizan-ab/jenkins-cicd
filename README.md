@@ -1,4 +1,8 @@
 🚀 Jenkins CI/CD Pipeline with GitHub Webhook & Docker (AWS EC2 Deployment)
+A production-style CI/CD pipeline that automatically builds, tests,
+containerizes, and deploys a Spring Boot application to AWS EC2
+using Jenkins and GitHub Webhooks.
+
 📌 Project Overview
 
 This project demonstrates a complete end-to-end CI/CD pipeline built using:
