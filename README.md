@@ -98,31 +98,13 @@ The pipeline includes:
 
 ## 🏗 Project Structure
 jenkins-cicd/
-│
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/faizan/jenkins_cicd/
-│   │   │       ├── JenkinsCicdApplication.java
-│   │   │       └── HelloController.java
-│   │   └── resources/
-│   │       └── application.properties
-│   │
-│   └── test/
-│       └── java/
-│           └── com/faizan/jenkins_cicd/
-│               └── JenkinsCicdApplicationTests.java
-│
-├── Dockerfile
-├── Jenkinsfile
-├── pom.xml
-├── mvnw
-├── mvnw.cmd
-├── .gitignore
-├── README.md
-└── screenshots/
-    ├── jenkins-success.png
-    └── live-app.png
+├── src/                  # Spring Boot source code
+├── Dockerfile            # Docker image configuration
+├── Jenkinsfile           # CI/CD pipeline definition
+├── pom.xml               # Maven build configuration
+├── screenshots/          # Project screenshots
+└── README.md             # Project documentation
+
 
 ---
 
