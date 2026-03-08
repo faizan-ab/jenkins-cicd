@@ -137,7 +137,8 @@ jenkins-cicd/
 
 
 ## 👨‍💻 Author
-Faizan
+Mohammed Abdul Faizan
+
 DevOps & Cloud Engineering Enthusiast
 
 
